@@ -54,9 +54,13 @@ class OntologyGraph:
 
     def _read_graph(self):
         for s, p, o in self.g:
+            if p in self.config.label_property:
+                self.labels[s] = o
+            elif p in self.config.tooltip_property:
+                self.tooltips[s].append(o)
             if any(uri in self.config.blacklist for uri in (s, p, o)):
                 continue
-            if p == RDF.type:
+            elif p == RDF.type:
                 if o == OWL.Class:
                     self.add_to_classes(s)
                 else:
@@ -64,10 +68,6 @@ class OntologyGraph:
                     if str(o) not in self.config.colors.ins:
                         self.add_to_classes(o)
                         self.add_edge((s, p, o))
-            elif p in self.config.label_property:
-                self.labels[s] = o
-            elif p in self.config.tooltip_property:
-                self.tooltips[s].append(o)
             elif isinstance(o, Literal):
                 literal_id = uuid4().hex
                 self.literals.add((literal_id, o))
