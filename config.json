@@ -5,21 +5,30 @@
     "http://www.w3.org/2004/02/skos/core#example",
     "http://www.w3.org/2004/02/skos/core#note",
     "http://www.w3.org/2000/01/rdf-schema#label",
+    "http://www.w3.org/2000/01/rdf-schema#comment",
     "http://dig.isi.edu/ontologies/dig-annotation/crm_equivalent"
   ],
   "class_inference_in_object": [
     "http://schema.org/domainIncludes",
     "http://schema.org/rangeIncludes",
     "http://www.w3.org/2000/01/rdf-schema#subClassOf",
-    "http://www.w3.org/2002/07/owl#subClassOf"
+    "http://www.w3.org/2002/07/owl#subClassOf",
+    "http://www.w3.org/2000/01/rdf-schema#Class"
   ],
   "property_inference_in_object": [
-    "http://www.w3.org/2002/07/owl#subPropertyOf"
+    "http://www.w3.org/2002/07/owl#subPropertyOf",
+    "http://www.w3.org/2000/01/rdf-schema#Property"
   ],
   "colors": {
     "class": "#1f77b4",
     "literal": "#ff7f0e",
     "instance": "#e377c2",
     "filled": false
-  }
+  },
+  "label_property": [
+    "http://www.w3.org/2000/01/rdf-schema#label"
+  ],
+  "tooltip_property": [
+    "http://www.w3.org/2000/01/rdf-schema#comment"
+  ]
 }
