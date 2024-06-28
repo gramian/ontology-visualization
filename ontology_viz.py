@@ -12,14 +12,14 @@ from utils import Config, SCHEMA
 
 query_classes = prepareQuery("""
 SELECT ?s {
-  { ?s a owl:Class } UNION
-  { ?s owl:subClassOf+ ?o . ?o a owl:Class . }
-} """, initNs={'owl': OWL})
+    { ?s a rdfs:Class } UNION { ?s rdfs:subClassOf+ ?o . ?o a rdfs:Class . }
+} """)
+
 query_properties = prepareQuery("""
 SELECT ?s {
-  { ?s a ?property } UNION { ?s owl:subPropertyOf+ ?o . ?o a ?property }
-  FILTER ( ?property IN ( owl:DatatypeProperty, owl:ObjectProperty ) )
-} """, initNs={'owl': OWL})
+    { ?s a rdfs:Property } UNION { ?s rdfs:subPropertyOf+ ?o . ?o a rdfs:Property }
+} """)
+
 common_ns = {URIRef(ns) for ns in (RDF, RDFS, SKOS, SCHEMA, XSD, DOAP, FOAF)}
 
 
@@ -58,16 +58,16 @@ class OntologyGraph:
                 self.labels[s] = o
             elif p in self.config.tooltip_property:
                 self.tooltips[s].append(o)
-            if any(uri in self.config.blacklist for uri in (s, p, o)):
-                continue
-            elif p == RDF.type:
-                if o == OWL.Class:
+            if p == RDF.type and s not in self.config.blacklist:
+                if o == OWL.Class or o == RDFS.Class:
                     self.add_to_classes(s)
                 else:
                     self.instances[s] = o
                     if str(o) not in self.config.colors.ins:
                         self.add_to_classes(o)
                         self.add_edge((s, p, o))
+            elif any(uri in self.config.blacklist for uri in (s, p, o)):
+                continue
             elif isinstance(o, Literal):
                 literal_id = uuid4().hex
                 self.literals.add((literal_id, o))
