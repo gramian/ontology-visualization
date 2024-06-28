@@ -17,7 +17,7 @@ SELECT ?s {
 
 query_properties = prepareQuery("""
 SELECT ?s {
-    { ?s a rdfs:Property } UNION { ?s rdfs:subPropertyOf+ ?o . ?o a rdfs:Property }
+    { ?s a rdf:Property } UNION { ?s rdfs:subPropertyOf+ ?o . ?o a rdf:Property }
 } """)
 
 common_ns = {URIRef(ns) for ns in (RDF, RDFS, SKOS, SCHEMA, XSD, DOAP, FOAF)}
